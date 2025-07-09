@@ -1,0 +1,40 @@
+﻿@model MiniAccountingSystem.Models.VoucherDetailViewModel
+@{
+    var index = ViewData["index"] as int?;
+    if (!index.HasValue)
+    {
+        index = 0;
+    }
+}
+
+<tr>
+    <td>
+        <select asp-for="AccountId"
+                name="VoucherDetails[@index.Value].AccountId"
+                id="@($"VoucherDetails_{index.Value}__AccountId")"
+                class="form-control"
+                asp-items="@Model.AvailableAccounts">
+            <option value="">-- Select Account --</option>
+        </select>
+        <span asp-validation-for="AccountId" class="text-danger"></span>
+    </td>
+    <td>
+        <input asp-for="DebitAmount"
+               name="VoucherDetails[@index.Value].DebitAmount"
+               id="@($"VoucherDetails_{index.Value}__DebitAmount")"
+               class="form-control text-end debit-amount"
+               type="number" step="0.01" min="0" />
+        <span asp-validation-for="DebitAmount" class="text-danger"></span>
+    </td>
+    <td>
+        <input asp-for="CreditAmount"
+               name="VoucherDetails[@index.Value].CreditAmount"
+               id="@($"VoucherDetails_{index.Value}__CreditAmount")"
+               class="form-control text-end credit-amount"
+               type="number" step="0.01" min="0" />
+        <span asp-validation-for="CreditAmount" class="text-danger"></span>
+    </td>
+    <td>
+        <button type="button" class="btn btn-danger btn-sm remove-row">Remove</button>
+    </td>
+</tr>

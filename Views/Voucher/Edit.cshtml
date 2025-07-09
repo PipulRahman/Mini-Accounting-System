@@ -1,0 +1,190 @@
+﻿@model MiniAccountingSystem.Models.VoucherViewModel
+
+@{
+    ViewData["Title"] = "Edit Voucher";
+}
+
+<h1>Edit Voucher</h1>
+<form asp-action="Edit" method="post" id="voucherForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="VoucherId" />
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="mb-3">
+                <label asp-for="VoucherDate" class="control-label"></label>
+                <input asp-for="VoucherDate" class="form-control" type="date" />
+                <span asp-validation-for="VoucherDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="mb-3">
+                <label asp-for="VoucherType" class="control-label"></label>
+                <select asp-for="VoucherType" class="form-control">
+                    <option value="Journal">Journal</option>
+                    <option value="Payment">Payment</option>
+                    <option value="Receipt">Receipt</option>
+                    <option value="Contra">Contra</option>
+                </select>
+                <span asp-validation-for="VoucherType" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="mb-3">
+                <label asp-for="ReferenceNo" class="control-label"></label>
+                <input asp-for="ReferenceNo" class="form-control" />
+                <span asp-validation-for="ReferenceNo" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Narration" class="control-label"></label>
+        <textarea asp-for="Narration" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Narration" class="text-danger"></span>
+    </div>
+
+    <h3>Voucher Details</h3>
+    <table class="table table-bordered" id="voucherDetailsTable">
+        <thead>
+            <tr>
+                <th style="width: 40%;">Account</th>
+                <th style="width: 25%;">Debit</th>
+                <th style="width: 25%;">Credit</th>
+                <th style="width: 10%;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.VoucherDetails.Count; i++)
+            {
+                @Html.Partial("_VoucherDetailRow", Model.VoucherDetails[i], new ViewDataDictionary(ViewData) { { "index", i } })
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="1" class="text-end fw-bold">Total:</td>
+                <td><input type="text" id="totalDebit" class="form-control fw-bold text-end" value="@Model.TotalDebit.ToString("N2")" readonly /></td>
+                <td><input type="text" id="totalCredit" class="form-control fw-bold text-end" value="@Model.TotalCredit.ToString("N2")" readonly /></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <button type="button" id="addRow" class="btn btn-info mb-3">Add Row</button>
+
+    <div class="mb-3">
+        <input type="submit" value="Save Changes" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function updateRowIndices() {
+                $('#voucherDetailsTable tbody tr').each(function (index) {
+                    $(this).find('select, input').each(function () 
+                    {
+                        var name = $(this).attr('name');
+                        if (name) 
+                        {
+                            $(this).attr('name', name.replace(/VoucherDetails\[\d+\]/, `VoucherDetails[${index}]`));
+                            $(this).attr('id', name.replace(/VoucherDetails\[\d+\]\.(.*)/, `VoucherDetails_${index}__$1`).replace(/\./g, '_'));
+                        }
+                    });
+                    $(this).find('[data-val-property-name]').each(function () {
+                        var valName = $(this).attr('data-val-property-name');
+                        if (valName) {
+                            $(this).attr('data-val-property-name', valName.replace(/VoucherDetails\[\d+\]/, `VoucherDetails[${index}]`));
+                        }
+                    });
+                });
+                calculateTotals();
+            }
+            function calculateTotals() 
+            {
+                let totalDebit = 0;
+                let totalCredit = 0;
+
+                $('#voucherDetailsTable tbody tr').each(function () {
+                    const debitInput = $(this).find('input[name$=".DebitAmount"]');
+                    const creditInput = $(this).find('input[name$=".CreditAmount"]');
+
+                    let debit = parseFloat(debitInput.val()) || 0;
+                    let credit = parseFloat(creditInput.val()) || 0;
+
+                    totalDebit += debit;
+                    totalCredit += credit;
+                });
+
+                $('#totalDebit').val(totalDebit.toFixed(2));
+                $('#totalCredit').val(totalCredit.toFixed(2));
+                if (totalDebit !== totalCredit) {
+                    $('#totalDebit, #totalCredit').addClass('is-invalid');
+                } else {
+                    $('#totalDebit, #totalCredit').removeClass('is-invalid');
+                }
+            }
+
+            $('#addRow').click(function () {
+                const rowCount = $('#voucherDetailsTable tbody tr').length;
+                const accountOptions = $('#voucherDetailsTable tbody tr:first-child select[name$=".AccountId"]').html();
+
+                const newRowHtml = `
+                    <tr>
+                        <td>
+                            <select name="VoucherDetails[${rowCount}].AccountId" id="VoucherDetails_${rowCount}__AccountId" class="form-control" data-val="true" data-val-required="The Account field is required.">
+                                <option value="">-- Select Account --</option>
+                                ${accountOptions}
+                            </select>
+                            <span class="text-danger field-validation-valid" data-valmsg-for="VoucherDetails[${rowCount}].AccountId" data-valmsg-replace="true"></span>
+                        </td>
+                        <td>
+                            <input name="VoucherDetails[${rowCount}].DebitAmount" id="VoucherDetails_${rowCount}__DebitAmount" class="form-control text-end debit-amount" type="number" step="0.01" min="0" value="0" data-val="true" data-val-range="Debit amount must be non-negative." data-val-range-max="9999999999999999.99" data-val-range-min="0" />
+                            <span class="text-danger field-validation-valid" data-valmsg-for="VoucherDetails[${rowCount}].DebitAmount" data-valmsg-replace="true"></span>
+                        </td>
+                        <td>
+                            <input name="VoucherDetails[${rowCount}].CreditAmount" id="VoucherDetails_${rowCount}__CreditAmount" class="form-control text-end credit-amount" type="number" step="0.01" min="0" value="0" data-val="true" data-val-range="Credit amount must be non-negative." data-val-range-max="9999999999999999.99" data-val-range-min="0" />
+                            <span class="text-danger field-validation-valid" data-valmsg-for="VoucherDetails[${rowCount}].CreditAmount" data-valmsg-replace="true"></span>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm remove-row">Remove</button>
+                        </td>
+                    </tr>
+                `;
+                $('#voucherDetailsTable tbody').append(newRowHtml);
+                $.validator.unobtrusive.parse($('#voucherDetailsTable tbody tr:last-child'));
+                calculateTotals();
+            });
+
+            $('#voucherDetailsTable').on('click', '.remove-row', function () {
+                if ($('#voucherDetailsTable tbody tr').length > 1) {
+                    $(this).closest('tr').remove();
+                    updateRowIndices();
+                } else {
+                    alert('At least one voucher detail row is required.');
+                }
+            });
+
+            $('#voucherDetailsTable').on('input', '.debit-amount, .credit-amount', function () {
+                const row = $(this).closest('tr');
+                const debitInput = row.find('.debit-amount');
+                const creditInput = row.find('.credit-amount');
+
+                if ($(this).hasClass('debit-amount') && parseFloat(debitInput.val()) > 0) {
+                    creditInput.val('0.00');
+                } else if ($(this).hasClass('credit-amount') && parseFloat(creditInput.val()) > 0) {
+                    debitInput.val('0.00');
+                }
+
+                calculateTotals();
+            });
+            calculateTotals();
+        });
+    </script>
+}
