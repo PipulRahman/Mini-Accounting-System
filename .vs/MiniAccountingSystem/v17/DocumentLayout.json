@@ -1,12 +1,54 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "F:\\Pipul\\MiniAccountingSystem\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\MiniAccountingSystem\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CA7485A7-8DA8-4E15-BCDA-29AF4D07AEC1}|MiniAccountingSystem.csproj|c:\\miniaccountingsystem\\controllers\\chartofaccountscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CA7485A7-8DA8-4E15-BCDA-29AF4D07AEC1}|MiniAccountingSystem.csproj|solutionrelative:controllers\\chartofaccountscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CA7485A7-8DA8-4E15-BCDA-29AF4D07AEC1}|MiniAccountingSystem.csproj|c:\\miniaccountingsystem\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{CA7485A7-8DA8-4E15-BCDA-29AF4D07AEC1}|MiniAccountingSystem.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ChartOfAccountsController.cs",
+              "DocumentMoniker": "C:\\MiniAccountingSystem\\Controllers\\ChartOfAccountsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ChartOfAccountsController.cs",
+              "ToolTip": "C:\\MiniAccountingSystem\\Controllers\\ChartOfAccountsController.cs",
+              "RelativeToolTip": "Controllers\\ChartOfAccountsController.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAIwE8AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T22:17:36.455Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\MiniAccountingSystem\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\MiniAccountingSystem\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-09T22:13:23.215Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

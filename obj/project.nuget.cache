@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HLt6F0q8Yys=",
+  "dgSpecHash": "O7DtF9BeGG0=",
   "success": true,
-  "projectFilePath": "F:\\Pipul\\MiniAccountingSystem\\MiniAccountingSystem.csproj",
+  "projectFilePath": "C:\\MiniAccountingSystem\\MiniAccountingSystem.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dodo\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\dodo\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
