@@ -6,7 +6,7 @@ The Mini Accounting System is a web-based application built with ASP.NET Core MV
 
 * **User Authentication & Authorization:**
     * Secure admin login system.
-    * Admin (Username: `Admin`, Password: `Admin@123`) to control access to different modules.
+    * Admin (Email: `admin@example.com`, Password: `Admin@123`) to control access to different modules.
 * **Chart of Accounts Management:**
     * View, Add, Edit, and Delete accounting accounts.
 * **Voucher Entry Module:**
@@ -63,7 +63,7 @@ The Mini Accounting System is a web-based application built with ASP.NET Core MV
 ## Usage
 
 1.  **Register/Login:**
-    * You can log in with the default admin user (e.g., Username: `Admin`, Password: `Admin@123`).
+    * You can log in with the default admin user (e.g., Email: `admin@example.com`, Password: `Admin@123`).
 
 2.  **Navigate:** Use the navigation bar to access:
     * **Chart of Accounts:** Manage accounting ledger.
